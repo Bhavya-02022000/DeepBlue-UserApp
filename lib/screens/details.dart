@@ -32,12 +32,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     keys.sort((b, a) => a.compareTo(b));
                     int indexOfKeys = keys.indexOf(key);
                     lists.insert(indexOfKeys, values);
+                    if(lists.length > 5){
+                      lists.removeRange(5, lists.length);
+                    }
                   });
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: new ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 5,
+                        itemCount: lists.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
                             child: Column(
