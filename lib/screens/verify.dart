@@ -1,9 +1,10 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:userapp/screens/home.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -15,19 +16,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
   User user;
   Timer timer;
 
-
   @override
-  void initState(){
+  void initState() {
     user = auth.currentUser;
     user.sendEmailVerification();
-    timer = Timer.periodic(Duration (seconds: 2), (timer) {
+    timer = Timer.periodic(Duration(seconds: 2), (timer) {
       checkEmailVerified();
-     });
+    });
     super.initState();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     timer.cancel();
     super.dispose();
   }
@@ -36,18 +36,41 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'An Email is sent to ${user.email}. Please Verify'),
-          ),
+        child: Text('An Email is sent to ${user.email}. Please Verify'),
+      ),
     );
   }
 
-  Future<void> checkEmailVerified() async{
+  Future<void> checkEmailVerified() async {
     user = auth.currentUser;
     await user.reload();
-    if(user.emailVerified){
+    if (user.emailVerified) {
       timer.cancel();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+      final prefs = await SharedPreferences.getInstance();
+      final myString = prefs.getString('Name') ?? '';
+      final user = FirebaseAuth.instance.currentUser;
+      String date = DateTime.now().toString();
+      FirebaseDatabase.instance
+          .reference()
+          .child('admin')
+          .child(user.uid)
+          .update({
+        'name': myString,
+        'temp': 'dummy',
+        'date': 'dummy',
+        'status': 'safe'
+      });
+      FirebaseDatabase.instance
+          .reference()
+          .child('users')
+          .child(user.uid)
+          .child(date.substring(0, date.indexOf(' ')))
+          .set({
+        'temp': 'dummy',
+        'status': 'safe'
+      });
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 }

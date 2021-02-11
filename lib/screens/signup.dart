@@ -1,25 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:userapp/screens/firstpage.dart';
-import 'package:userapp/screens/home.dart';
-import 'package:userapp/screens/reset.dart';
-import 'package:userapp/screens/signup.dart';
+import 'package:userapp/screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:userapp/screens/verify.dart';
 
-class Login extends StatefulWidget {
+
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpScreenState extends State<SignUpScreen> {
   String _email, _password;
   final auth = FirebaseAuth.instance;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Signup'),
         leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
@@ -27,12 +26,23 @@ class _LoginState extends State<Login> {
               ),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => FirstScreen()));
+                    MaterialPageRoute(builder: (context) => Login()));
               },
             ),
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(hintText: 'Name'),
+              onChanged: (value) async{
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString('Name', value);
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -61,32 +71,22 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                  child: Text('Sign in'),
+                  child: Text('Back'),
                   onPressed: () {
-                    auth
-                        .signInWithEmailAndPassword(
-                            email: _email, password: _password)
-                        .then((_) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
-                    });
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => Login()));
                   }),
               ElevatedButton(
-                child: Text('Sign Up'),
-                onPressed: (){
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignUpScreen()));
-                },
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ResetScreen())),
-                  child: Text('Forgot Password?'))
+                  child: Text('Sign Up'),
+                  onPressed: () {
+                    auth
+                        .createUserWithEmailAndPassword(
+                            email: _email, password: _password)
+                        .then((_) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => VerifyScreen()));
+                    });
+                  })
             ],
           ),
         ],
