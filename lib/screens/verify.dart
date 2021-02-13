@@ -53,11 +53,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
       FirebaseDatabase.instance
           .reference()
           .child('admin')
+          .child(date.substring(0, date.indexOf(' ')))
           .child(user.uid)
           .update({
         'name': myString,
-        'temp': 'dummy',
-        'date': 'dummy',
+        'temp': '39.2',
+        'date': DateTime.now().toString(),
         'status': 'safe'
       });
       FirebaseDatabase.instance

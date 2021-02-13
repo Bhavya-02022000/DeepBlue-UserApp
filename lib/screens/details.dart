@@ -32,7 +32,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     keys.sort((b, a) => a.compareTo(b));
                     int indexOfKeys = keys.indexOf(key);
                     lists.insert(indexOfKeys, values);
-                    if(lists.length > 5){
+                    if (lists.length > 5) {
                       lists.removeRange(5, lists.length);
                     }
                   });
@@ -48,19 +48,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Status: " +
-                                        lists[index]['status'].toString(),
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  child: Text("Date: " + keys[index],
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Temperature: " +
-                                        lists[index]['Temp'].toString(),
+                                    "Status: " +
+                                        lists[index]['status'].toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
@@ -68,8 +65,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("Date: " + keys[index],
-                                      style: TextStyle(fontSize: 15)),
+                                  child: Text(
+                                    "Temperature: " +
+                                        lists[index]['temp'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
