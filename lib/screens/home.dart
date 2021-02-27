@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userapp/screens/admin.dart';
 import 'package:userapp/screens/details.dart';
 import 'package:userapp/screens/login.dart';
+import 'package:userapp/screens/organization.dart';
 import 'package:userapp/screens/qr.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -47,7 +49,12 @@ class Buttons extends StatelessWidget {
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[ScanQR(), UserDetails(), AdminDetails()],
+                  children: <Widget>[
+                    ScanQR(),
+                    UserDetails(),
+                    AdminDetails(),
+                    OrganizationPage()
+                  ],
                 ),
               ],
             ),
@@ -142,6 +149,15 @@ class _AdminDetailsState extends State<AdminDetails> {
                   .value;
               print(emailID.toString());
               if (user.email == emailID) {
+                var org = (await FirebaseDatabase.instance
+                        .reference()
+                        .child('users')
+                        .child(user.uid)
+                        .child('org')
+                        .once())
+                    .value;
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString('org', org);
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => AdminScreen(),
                 ));
@@ -164,13 +180,41 @@ class _AdminDetailsState extends State<AdminDetails> {
   }
 }
 
+class OrganizationPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.43,
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => OrganizationButtons(),
+              ));
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                // Image(
+                //   alignment: Alignment.center,
+                //   image: AssetImage('img/userDetails.jpg'),
+                // ),
+                Text('Ogranization'),
+              ],
+            )),
+      ),
+    );
+  }
+}
+
 showAlertDialog(BuildContext context) {
   // set up the button
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.of(context, rootNavigator: true).pop();
-
     },
   );
 

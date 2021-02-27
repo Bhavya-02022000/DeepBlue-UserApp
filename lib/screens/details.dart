@@ -10,10 +10,25 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   final user = FirebaseAuth.instance.currentUser;
-  final dbRef = FirebaseDatabase.instance.reference().child('users');
+
   final lists = [];
   final keys = [];
+  final values = [];
   String data;
+  var dbRef;
+  @override
+  void initState() {
+    setState(() {
+      dbRef = getdbRef();
+    });
+    super.initState();
+  }
+
+  getdbRef() {
+    final dbRef =
+        FirebaseDatabase.instance.reference().child('users').child(user.uid);
+    return dbRef;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +37,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FutureBuilder(
-              future: dbRef.child(user.uid).once(),
+              future: dbRef.once(),
               builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   lists.clear();
-                  Map<dynamic, dynamic> values = snapshot.data.value;
-                  values.forEach((key, values) {
+                  Map<dynamic, dynamic> value = snapshot.data.value;
+                  value.forEach((key, value) {
                     keys.add(key);
-                    keys.sort((b, a) => a.compareTo(b));
-                    int indexOfKeys = keys.indexOf(key);
-                    lists.insert(indexOfKeys, values);
-                    if (lists.length > 5) {
-                      lists.removeRange(5, lists.length);
-                    }
+                    values.add(value);
+                    // keys.sort((b, a) => a.compareTo(b));
+                    // int indexOfKeys = keys.indexOf(key);
+                    // lists.insert(indexOfKeys, values);
+                    // lists.add([key,values]);
+                    // if (lists.length > 5) {
+                    // lists.removeRange(5, lists.length);
+                    // }
                   });
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: new ListView.builder(
                         shrinkWrap: true,
-                        itemCount: lists.length,
+                        itemCount: 1,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
                             child: Column(
@@ -48,16 +65,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("Date: " + keys[index],
+                                  child: Text("Name: " + values[3],
                                       style: TextStyle(
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
+                                  child: Text("Date: " + values[0],
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Status: " +
-                                        lists[index]['status'].toString(),
+                                    "Organisation: " + values[2].toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
@@ -66,8 +89,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Temperature: " +
-                                        lists[index]['temp'].toString(),
+                                    "Temperature: " + values[1].toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
