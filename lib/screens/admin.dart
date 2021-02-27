@@ -63,8 +63,10 @@ class _AdminScreenState extends State<AdminScreen> {
                         uidDataOfUser = value;
                         // adding all the dates, uids and data in respective lists
                         dateList.add(date);
-                        uidOfEachUserList.add(uidDataOfUser.keys.toList());
-                        uidDataOfUserList.add(uidDataOfUser.values.toList());
+                        dateList.sort((b, a) => a.compareTo(b));
+                        int indexOfDate = dateList.indexOf(key);
+                        uidOfEachUserList.insert(indexOfDate,uidDataOfUser.keys.toList());
+                        uidDataOfUserList.insert(indexOfDate,uidDataOfUser.values.toList());
                       });
                       // traverse through all dates
                       for (var i = 0; i < dateList.length; i++) {
