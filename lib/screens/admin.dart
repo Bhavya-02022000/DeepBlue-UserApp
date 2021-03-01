@@ -34,6 +34,7 @@ class _AdminScreenState extends State<AdminScreen> {
   getDBRef() async{
     final prefs = await SharedPreferences.getInstance();
     final org = prefs.getString('org') ?? '';
+    // final org = 'sakec';
     final dbref = FirebaseDatabase.instance
             .reference()
             .child('admin')
@@ -125,13 +126,13 @@ class _AdminScreenState extends State<AdminScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                          'Temp: ${finalList[index][1] ?? "Empty"}',
+                                          'Name: ${finalList[index][1] ?? "Empty"}',
                                           style: TextStyle(fontSize: 15)),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                          'Date: ${finalList[index][2] ?? "Empty"}',
+                                          'Temp: ${finalList[index][2] ?? "Empty"}',
                                           style: TextStyle(fontSize: 15)),
                                     ),
                                   ],

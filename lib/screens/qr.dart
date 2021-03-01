@@ -15,6 +15,7 @@ class _QRScreenState extends State<QRScreen> {
   User user;
   var name = '';
   var myDate = '';
+  var org;
   @override
   void initState() {
     user = auth.currentUser;
@@ -22,23 +23,25 @@ class _QRScreenState extends State<QRScreen> {
     super.initState();
   }
 
-  void getname()async{
+  void getname() async {
     final prefs = await SharedPreferences.getInstance();
     final myString = prefs.getString('Name') ?? '';
+    // final myStringOrg = prefs.getString('org') ?? '';
     setState(() {
-          name = myString;
-        });
+      name = myString;
+    });
     String date = DateTime.now().toString();
     date = date.split('.')[0];
     date = date.replaceAll('-', '');
     date = date.replaceAll(' ', '');
     date = date.replaceAll(':', '');
     date = date.toString();
-    date = date.substring(2,12);
+    date = date.substring(2, 12);
     print(date);
     setState(() {
-          myDate = date;
-        });
+      myDate = date;
+      // org = myStringOrg;
+    });
   }
 
   @override
@@ -63,7 +66,7 @@ class _QRScreenState extends State<QRScreen> {
           child: Center(
             child: Container(
               child: QrImage(
-                data: user.uid+" "+name+" "+myDate,
+                data: user.uid + " " + name + " " + myDate,
                 version: QrVersions.auto,
                 size: 300.0,
               ),
@@ -74,5 +77,3 @@ class _QRScreenState extends State<QRScreen> {
     );
   }
 }
-
-

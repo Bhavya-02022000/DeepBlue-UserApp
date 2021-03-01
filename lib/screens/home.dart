@@ -66,6 +66,7 @@ class Buttons extends StatelessWidget {
 }
 
 class ScanQR extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,6 +76,15 @@ class ScanQR extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.25,
         child: ElevatedButton(
             onPressed: () {
+              // var org = (await FirebaseDatabase.instance
+              //           .reference()
+              //           .child('users')
+              //           .child(user.uid)
+              //           .child('org')
+              //           .once())
+              //       .value;
+              //   final prefs = await SharedPreferences.getInstance();
+              //   prefs.setString('org', org);
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => QRScreen(),
               ));
@@ -151,7 +161,7 @@ class _AdminDetailsState extends State<AdminDetails> {
               if (user.email == emailID) {
                 var org = (await FirebaseDatabase.instance
                         .reference()
-                        .child('users')
+                        .child('adminName')
                         .child(user.uid)
                         .child('org')
                         .once())
@@ -201,7 +211,7 @@ class OrganizationPage extends StatelessWidget {
                 //   alignment: Alignment.center,
                 //   image: AssetImage('img/userDetails.jpg'),
                 // ),
-                Text('Ogranization'),
+                Text('Organization'),
               ],
             )),
       ),

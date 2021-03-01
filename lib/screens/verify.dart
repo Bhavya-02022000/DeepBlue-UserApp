@@ -49,7 +49,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
       final prefs = await SharedPreferences.getInstance();
       final myString = prefs.getString('Name') ?? '';
       final user = FirebaseAuth.instance.currentUser;
-      // String date = DateTime.now().toString();
+      String date = DateTime.now().toString();
       // FirebaseDatabase.instance
       //     .reference()
       //     .child('admin')
@@ -66,10 +66,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
           .child('users')
           .child(user.uid)
           .set({
-        'temp': 'dummy',
-        'status': 'safe',
+        'date': date.substring(0, date.indexOf(' ')),
+        'temp': '',
         'name': myString,
-        'org':''
+        // 'org':''
       });
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
