@@ -18,58 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-//     return Card(
-//       elevation: 3,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(10.0),
-//       ),
-//       child: Wrap(
-//         children: <Widget>[
-//           Container(
-//             width: MediaQuery.of(context).size.width * 0.9,
-//             height: MediaQuery.of(context).size.height * 0.11,
-//             decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.all(Radius.circular(10)),
-//                 gradient: LinearGradient(
-//                     begin: Alignment.centerLeft,
-//                     end: Alignment.centerRight,
-//                     stops: [0.15, 0.4, 0.7, 1],
-//                     colors: containercolor)
-// //        image: DecorationImage(
-// //          image: image(),
-// //          fit: BoxFit.fill,
-// //        ),
-//                 ),
-//             child: Center(
-//               child: Row(
-//                 children: <Widget>[
-//                   Padding(
-//                     padding: const EdgeInsets.only(left: 30, right: 10.0),
-//                     child: new Container(
-//                       child: new Image.asset(
-//                         'images/Dashboard/undraw_speed_test_wxl0.png',
-//                         height: 60.0,
-//                         fit: BoxFit.cover,
-//                       ),
-//                     ),
-//                   ),
-//                   Flexible(
-//                     child: Padding(
-//                       padding: const EdgeInsets.only(left: 50.0),
-//                       child: Text(
-//                         res ?? "You are safe",
-//                         style: TextStyle(fontSize: 20, color: Colors.black),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -99,7 +47,6 @@ class _ButtonsState extends State<Buttons> {
   ];
   @override
   void initState() {
-    
     timer = Timer.periodic(Duration(seconds: 2), (timer) {
       this.fetchingData();
     });
@@ -187,14 +134,8 @@ class _ButtonsState extends State<Buttons> {
                               gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  stops: [
-                                    0.15,
-                                    0.4,
-                                    0.7,
-                                    1
-                                  ],
+                                  stops: [0.15, 0.4, 0.7, 1],
                                   colors: containercolor)),
-                          
                           child: Row(
                             children: [
                               Padding(
@@ -206,19 +147,20 @@ class _ButtonsState extends State<Buttons> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left:150.0,top: 20),
+                                padding:
+                                    const EdgeInsets.only(left: 150.0, top: 20),
                                 child: Column(
                                   children: [
                                     Text(nameOfUser,
                                         style: TextStyle(fontSize: 16)),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Text("Temperature: " + tempOfUser,
                                         style: TextStyle(fontSize: 12)),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Text("Date: " + dateOfUser,
                                         style: TextStyle(fontSize: 12))
                                   ],
@@ -227,24 +169,6 @@ class _ButtonsState extends State<Buttons> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width * 0.9,
-                        //   // height: MediaQuery.of(context).size.height * 0.11,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Text("Temperature: " + tempOfUser,
-                        //         style: TextStyle(fontSize: 14)),
-                        //   ),
-                        // ),
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width * 0.9,
-                        //   // height: MediaQuery.of(context).size.height * 0.11,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Text("Date: " + dateOfUser,
-                        //         style: TextStyle(fontSize: 14)),
-                        //   ),
-                        // ),
                       ],
                     )),
                 Column(
@@ -252,18 +176,21 @@ class _ButtonsState extends State<Buttons> {
                   children: <Widget>[
                     Row(
                       children: [
-                        ScanQR(),
-                        PdfViewerButton()
-                        // UserDetails(),
+                        Column(
+                          children: [
+                            ScanQR(),
+                            PdfViewerButton()
+                            // UserDetails(),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            AdminDetails(),
+                            OrganisationPage(),
+                          ],
+                        ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        AdminDetails(),
-                        OrganisationPage(),
-                      ],
-                    ),
-                    // PdfViewerButton()
                   ],
                 ),
               ],
@@ -275,134 +202,37 @@ class _ButtonsState extends State<Buttons> {
   }
 }
 
-// class Buttons extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('DeepBlue'),
-//         actions: <Widget>[
-//           IconButton(
-//             icon: Icon(
-//               Icons.logout,
-//               color: Colors.white,
-//             ),
-//             onPressed: () {
-//               FirebaseAuth.instance.signOut();
-//               Navigator.of(context).pushReplacement(
-//                   MaterialPageRoute(builder: (context) => Login()));
-//             },
-//           )
-//         ],
-//       ),
-//       body: Padding(
-//         padding:
-//             EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 8.0),
-//         child: Column(
-//           children: <Widget>[
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: <Widget>[
-//                 Padding(
-//                   padding: const EdgeInsets.all(20.0),
-//                   child: new ListView.builder(
-//                       shrinkWrap: true,
-//                       itemCount: 1,
-//                       itemBuilder: (BuildContext context, int index) {
-//                         return Card(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: <Widget>[
-//                               Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Text("Name: " + dbRef['name'],
-//                                     style: TextStyle(
-//                                         fontSize: 25,
-//                                         fontWeight: FontWeight.bold)),
-//                               ),
-//                               Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Text("Date: " + dbRef['date'],
-//                                     style: TextStyle(
-//                                       fontSize: 15,
-//                                     )),
-//                               ),
-//                               Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Text(
-//                                   "Temperature: " + dbRef['temp'].toString(),
-//                                   style: TextStyle(
-//                                     fontSize: 15,
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         );
-//                       }),
-//                 ),
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: <Widget>[
-//                     Row(
-//                       children: [
-//                         ScanQR(),
-//                         PdfViewerButton()
-//                         // UserDetails(),
-//                       ],
-//                     ),
-//                     Row(
-//                       children: [
-//                         AdminDetails(),
-//                         OrganisationPage(),
-//                       ],
-//                     ),
-//                     // PdfViewerButton()
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class ScanQR extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      padding: EdgeInsets.only(top: 12.0, bottom: 2.0, left: 5),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: ElevatedButton(
-            onPressed: () {
-              // var org = (await FirebaseDatabase.instance
-              //           .reference()
-              //           .child('users')
-              //           .child(user.uid)
-              //           .child('org')
-              //           .once())
-              //       .value;
-              //   final prefs = await SharedPreferences.getInstance();
-              //   prefs.setString('org', org);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => QRScreen(),
-              ));
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Image(
-                  alignment: Alignment.center,
-                  image: AssetImage('img/QR.jpg'),
-                ),
-                Text('QR Code'),
-              ],
-            )),
+        height: MediaQuery.of(context).size.height * 0.27,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => QRScreen(),
+            ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/QR.jpg'),
+              ),
+              Text('QR Code'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.blue[50],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+        ),
       ),
     );
   }
@@ -448,47 +278,53 @@ class _AdminDetailsState extends State<AdminDetails> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      padding: EdgeInsets.only(top: 5, bottom: 2.0, left: 15.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: ElevatedButton(
-            onPressed: () async {
-              var emailID = (await FirebaseDatabase.instance
+        height: MediaQuery.of(context).size.height * 0.22,
+        child: RaisedButton(
+          onPressed: () async {
+            var emailID = (await FirebaseDatabase.instance
+                    .reference()
+                    .child('adminName')
+                    .child(user.uid)
+                    .child('email')
+                    .once())
+                .value;
+            print(emailID.toString());
+            if (user.email == emailID) {
+              var org = (await FirebaseDatabase.instance
                       .reference()
                       .child('adminName')
                       .child(user.uid)
-                      .child('email')
+                      .child('org')
                       .once())
                   .value;
-              print(emailID.toString());
-              if (user.email == emailID) {
-                var org = (await FirebaseDatabase.instance
-                        .reference()
-                        .child('adminName')
-                        .child(user.uid)
-                        .child('org')
-                        .once())
-                    .value;
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setString('org', org);
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AdminScreen(),
-                ));
-              } else {
-                showAlertDialog(context);
-              }
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Image(
-                  alignment: Alignment.center,
-                  image: AssetImage('img/adminDetails.jpg'),
-                ),
-                Text('Admin Details'),
-              ],
-            )),
+              final prefs = await SharedPreferences.getInstance();
+              prefs.setString('org', org);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AdminScreen(),
+              ));
+            } else {
+              showAlertDialog(context);
+            }
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/adminDetails.jpg'),
+              ),
+              Text('Admin Details'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.grey[100],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0),
+          ),
+        ),
       ),
     );
   }
@@ -498,26 +334,32 @@ class OrganisationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      padding: EdgeInsets.only(top: 13.0, bottom: 2.0, left: 15.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => OrganizationButtons(),
-              ));
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Image(
-                  alignment: Alignment.center,
-                  image: AssetImage('img/joinOrg.jpg'),
-                ),
-                Text('Organisation'),
-              ],
-            )),
+        height: MediaQuery.of(context).size.height * 0.27,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => OrganizationButtons(),
+            ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/joinOrg.jpg'),
+              ),
+              Text('Organisation'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.lightBlue[50],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0),
+          ),
+        ),
       ),
     );
   }
@@ -527,26 +369,32 @@ class PdfViewerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      padding: EdgeInsets.only(top: 13.0, bottom: 2.0, left: 5),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PdfViewer(),
-              ));
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Image(
-                  alignment: Alignment.center,
-                  image: AssetImage('img/howToUse.jpg'),
-                ),
-                Text('PDF'),
-              ],
-            )),
+        height: MediaQuery.of(context).size.height * 0.22,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PdfViewer(),
+            ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/howToUse.jpg'),
+              ),
+              Text('PDF'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.grey[100],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0),
+          ),
+        ),
       ),
     );
   }
