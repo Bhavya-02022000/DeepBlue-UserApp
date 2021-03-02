@@ -102,7 +102,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   );
                 }
                 return Center(child: CircularProgressIndicator());
-              })),
+              }
+              )
+              ),
     );
   }
 }

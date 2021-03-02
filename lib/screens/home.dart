@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +12,64 @@ import 'package:userapp/screens/organization.dart';
 import 'package:userapp/screens/pdfpage.dart';
 import 'package:userapp/screens/qr.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+//     return Card(
+//       elevation: 3,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(10.0),
+//       ),
+//       child: Wrap(
+//         children: <Widget>[
+//           Container(
+//             width: MediaQuery.of(context).size.width * 0.9,
+//             height: MediaQuery.of(context).size.height * 0.11,
+//             decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.all(Radius.circular(10)),
+//                 gradient: LinearGradient(
+//                     begin: Alignment.centerLeft,
+//                     end: Alignment.centerRight,
+//                     stops: [0.15, 0.4, 0.7, 1],
+//                     colors: containercolor)
+// //        image: DecorationImage(
+// //          image: image(),
+// //          fit: BoxFit.fill,
+// //        ),
+//                 ),
+//             child: Center(
+//               child: Row(
+//                 children: <Widget>[
+//                   Padding(
+//                     padding: const EdgeInsets.only(left: 30, right: 10.0),
+//                     child: new Container(
+//                       child: new Image.asset(
+//                         'images/Dashboard/undraw_speed_test_wxl0.png',
+//                         height: 60.0,
+//                         fit: BoxFit.cover,
+//                       ),
+//                     ),
+//                   ),
+//                   Flexible(
+//                     child: Padding(
+//                       padding: const EdgeInsets.only(left: 50.0),
+//                       child: Text(
+//                         res ?? "You are safe",
+//                         style: TextStyle(fontSize: 20, color: Colors.black),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +79,71 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class Buttons extends StatelessWidget {
+class Buttons extends StatefulWidget {
+  @override
+  _ButtonsState createState() => _ButtonsState();
+}
+
+class _ButtonsState extends State<Buttons> {
+  var dbRef = new Map();
+  var nameOfUser = '';
+  var tempOfUser = '';
+  var dateOfUser = '';
+  var res;
+  Timer timer;
+  var containercolor = [
+    Colors.white,
+    Colors.green[100],
+    Colors.green[300],
+    Colors.green[400]
+  ];
+  @override
+  void initState() {
+    
+    timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      this.fetchingData();
+    });
+    super.initState();
+  }
+
+  fetchingData() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    dbRef = (await FirebaseDatabase.instance
+            .reference()
+            .child('users')
+            .child(user.uid)
+            .once())
+        .value;
+    setState(() {
+      dbRef = dbRef;
+      nameOfUser = dbRef['name'];
+      tempOfUser = dbRef['temp'];
+      dateOfUser = dbRef['date'];
+    });
+
+    setState(() {
+      if (int.parse(dbRef['temp']) < 90) {
+        res = 'Safe';
+
+        containercolor = [
+          Colors.white,
+          Colors.green[100],
+          Colors.green[300],
+          Colors.green[400]
+        ];
+      } else {
+        res = 'Unsafe';
+        containercolor = [
+          Colors.white,
+          Colors.red[100],
+          Colors.red[300],
+          Colors.red[400]
+        ];
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,16 +168,93 @@ class Buttons extends StatelessWidget {
             EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 8.0),
         child: Column(
           children: <Widget>[
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [
+                                    0.15,
+                                    0.4,
+                                    0.7,
+                                    1
+                                  ],
+                                  colors: containercolor)),
+                          
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  'img/status.png',
+                                  height: 60.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left:150.0,top: 20),
+                                child: Column(
+                                  children: [
+                                    Text(nameOfUser,
+                                        style: TextStyle(fontSize: 16)),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                    Text("Temperature: " + tempOfUser,
+                                        style: TextStyle(fontSize: 12)),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                    Text("Date: " + dateOfUser,
+                                        style: TextStyle(fontSize: 12))
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width * 0.9,
+                        //   // height: MediaQuery.of(context).size.height * 0.11,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: Text("Temperature: " + tempOfUser,
+                        //         style: TextStyle(fontSize: 14)),
+                        //   ),
+                        // ),
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width * 0.9,
+                        //   // height: MediaQuery.of(context).size.height * 0.11,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: Text("Date: " + dateOfUser,
+                        //         style: TextStyle(fontSize: 14)),
+                        //   ),
+                        // ),
+                      ],
+                    )),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
                       children: [
                         ScanQR(),
-                        UserDetails(),
+                        PdfViewerButton()
+                        // UserDetails(),
                       ],
                     ),
                     Row(
@@ -63,7 +263,7 @@ class Buttons extends StatelessWidget {
                         OrganisationPage(),
                       ],
                     ),
-                    PdfViewerButton()
+                    // PdfViewerButton()
                   ],
                 ),
               ],
@@ -74,6 +274,100 @@ class Buttons extends StatelessWidget {
     );
   }
 }
+
+// class Buttons extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('DeepBlue'),
+//         actions: <Widget>[
+//           IconButton(
+//             icon: Icon(
+//               Icons.logout,
+//               color: Colors.white,
+//             ),
+//             onPressed: () {
+//               FirebaseAuth.instance.signOut();
+//               Navigator.of(context).pushReplacement(
+//                   MaterialPageRoute(builder: (context) => Login()));
+//             },
+//           )
+//         ],
+//       ),
+//       body: Padding(
+//         padding:
+//             EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 8.0),
+//         child: Column(
+//           children: <Widget>[
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: <Widget>[
+//                 Padding(
+//                   padding: const EdgeInsets.all(20.0),
+//                   child: new ListView.builder(
+//                       shrinkWrap: true,
+//                       itemCount: 1,
+//                       itemBuilder: (BuildContext context, int index) {
+//                         return Card(
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: <Widget>[
+//                               Padding(
+//                                 padding: const EdgeInsets.all(8.0),
+//                                 child: Text("Name: " + dbRef['name'],
+//                                     style: TextStyle(
+//                                         fontSize: 25,
+//                                         fontWeight: FontWeight.bold)),
+//                               ),
+//                               Padding(
+//                                 padding: const EdgeInsets.all(8.0),
+//                                 child: Text("Date: " + dbRef['date'],
+//                                     style: TextStyle(
+//                                       fontSize: 15,
+//                                     )),
+//                               ),
+//                               Padding(
+//                                 padding: const EdgeInsets.all(8.0),
+//                                 child: Text(
+//                                   "Temperature: " + dbRef['temp'].toString(),
+//                                   style: TextStyle(
+//                                     fontSize: 15,
+//                                   ),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         );
+//                       }),
+//                 ),
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: <Widget>[
+//                     Row(
+//                       children: [
+//                         ScanQR(),
+//                         PdfViewerButton()
+//                         // UserDetails(),
+//                       ],
+//                     ),
+//                     Row(
+//                       children: [
+//                         AdminDetails(),
+//                         OrganisationPage(),
+//                       ],
+//                     ),
+//                     // PdfViewerButton()
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ScanQR extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;

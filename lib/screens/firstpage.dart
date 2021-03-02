@@ -44,7 +44,7 @@ class FirstScreen extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    "Welcome to the\nDeepBlue 'ASST App'",
+                    "Welcome to the\n'Safety First' App",
                     style: TextStyle(
                         fontFamily: "Bebas", fontSize: 48, color: Colors.black),
                   ),
