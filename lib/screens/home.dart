@@ -7,6 +7,7 @@ import 'package:userapp/screens/admin.dart';
 import 'package:userapp/screens/details.dart';
 import 'package:userapp/screens/login.dart';
 import 'package:userapp/screens/organization.dart';
+import 'package:userapp/screens/pdfpage.dart';
 import 'package:userapp/screens/qr.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -50,10 +51,19 @@ class Buttons extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ScanQR(),
-                    UserDetails(),
-                    AdminDetails(),
-                    OrganizationPage()
+                    Row(
+                      children: [
+                        ScanQR(),
+                        UserDetails(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        AdminDetails(),
+                        OrganisationPage(),
+                      ],
+                    ),
+                    PdfViewerButton()
                   ],
                 ),
               ],
@@ -144,10 +154,10 @@ class _AdminDetailsState extends State<AdminDetails> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.25,
         child: ElevatedButton(
             onPressed: () async {
               var emailID = (await FirebaseDatabase.instance
@@ -178,10 +188,10 @@ class _AdminDetailsState extends State<AdminDetails> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                // Image(
-                //   alignment: Alignment.center,
-                //   image: AssetImage('img/userDetails.jpg'),
-                // ),
+                Image(
+                  alignment: Alignment.center,
+                  image: AssetImage('img/adminDetails.jpg'),
+                ),
                 Text('Admin Details'),
               ],
             )),
@@ -190,14 +200,14 @@ class _AdminDetailsState extends State<AdminDetails> {
   }
 }
 
-class OrganizationPage extends StatelessWidget {
+class OrganisationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.25,
         child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -207,11 +217,40 @@ class OrganizationPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                // Image(
-                //   alignment: Alignment.center,
-                //   image: AssetImage('img/userDetails.jpg'),
-                // ),
-                Text('Organization'),
+                Image(
+                  alignment: Alignment.center,
+                  image: AssetImage('img/joinOrg.jpg'),
+                ),
+                Text('Organisation'),
+              ],
+            )),
+      ),
+    );
+  }
+}
+
+class PdfViewerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.43,
+        height: MediaQuery.of(context).size.height * 0.25,
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PdfViewer(),
+              ));
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Image(
+                  alignment: Alignment.center,
+                  image: AssetImage('img/howToUse.jpg'),
+                ),
+                Text('PDF'),
               ],
             )),
       ),
