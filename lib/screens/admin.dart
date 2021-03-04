@@ -27,11 +27,19 @@ class _AdminScreenState extends State<AdminScreen> {
   var dbRef;
   var lastNameofUser;
   var newdbRefList = [];
-  var containercolor = [
+  var colorList = [];
+  var colorList1 = [];
+  var containerColorGreen = [
     Colors.white,
     Colors.green[100],
     Colors.green[300],
     Colors.green[400]
+  ];
+  var containerColorRed = [
+    Colors.white,
+    Colors.red[100],
+    Colors.red[300],
+    Colors.red[400]
   ];
   @override
   void initState() {
@@ -45,11 +53,10 @@ class _AdminScreenState extends State<AdminScreen> {
     // final org = 'sakec';
     final dbref =
         FirebaseDatabase.instance.reference().child('admin').child(org);
-   
+
     //  print((await dbref.once()).value);
     setState(() {
       dbRef = dbref;
-
     });
   }
 
@@ -99,9 +106,14 @@ class _AdminScreenState extends State<AdminScreen> {
                               [tempOfUser] +
                               [dateOfUser] +
                               [lastNameofUser];
-                          
+
                           // preparing final list to print
                           finalList.add(finalString);
+                          if (double.parse(tempOfUser) > 38) {
+                            colorList.add(containerColorRed);
+                          } else {
+                            colorList.add(containerColorGreen);
+                          }
                         }
                       }
                     }
@@ -115,14 +127,13 @@ class _AdminScreenState extends State<AdminScreen> {
                             return Card(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  // gradient: LinearGradient(
-                                  //     begin: Alignment.centerLeft,
-                                  //     end: Alignment.centerRight,
-                                  //     stops: [0.15, 0.4, 0.7, 1],
-                                  //     colors: containercolor)
-                                ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        stops: [0.15, 0.4, 0.7, 1],
+                                        colors: colorList[index])),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -136,40 +147,22 @@ class _AdminScreenState extends State<AdminScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              'Date: ${finalList[index][0] ?? "Empty"}',
+                                              'Name: ${(finalList[index][1]).toString().split('_')[0] ?? "Empty"} ${(finalList[index][1]).toString().split('_')[1] ?? "Empty"}',
                                               style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            // child: Text((
-                                            //   () {
-                                            //   if (double.parse(finalList[index][2]) > 90) {
-                                            //     setState(() {
-                                            //       containercolor = [
-                                            //         Colors.white,
-                                            //         Colors.red[100],
-                                            //         Colors.red[300],
-                                            //         Colors.red[400]
-                                            //       ];
-                                            //     });
-                                            //       return 'Date: ${finalList[index][0] ?? "Empty"}';
-                                            //   }
-                                            // })(),
-
-                                            //   style: TextStyle(
-                                            //         fontSize: 25,
-                                            //         fontWeight: FontWeight.bold),),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                'Name: ${(finalList[index][1]).toString().split('_')[0] ?? "Empty"} ${(finalList[index][1]).toString().split('_')[1] ?? "Empty"}',
-                                                style: TextStyle(fontSize: 15)),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
                                                 'Temp: ${finalList[index][2] ?? "Empty"}',
+                                                style: TextStyle(fontSize: 15)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                'Date: ${finalList[index][0] ?? "Empty"}',
                                                 style: TextStyle(fontSize: 15)),
                                           ),
                                         ],

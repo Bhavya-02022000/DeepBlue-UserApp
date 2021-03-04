@@ -35,7 +35,7 @@ class Buttons extends StatefulWidget {
 class _ButtonsState extends State<Buttons> {
   var dbRef = new Map();
   var nameOfUser = '';
-  var tempOfUser = '';
+  double tempOfUser = 0;
   var dateOfUser = '';
   var lastnameOfUser = '';
   var res;
@@ -72,7 +72,7 @@ class _ButtonsState extends State<Buttons> {
     });
 
     setState(() {
-      if (int.parse(dbRef['temp']) < 38) {
+      if (dbRef['temp'] < 38) {
         res = 'You are Safe';
 
         containercolor = [
@@ -243,7 +243,7 @@ class _ButtonsState extends State<Buttons> {
                                                     const EdgeInsets.all(5.0),
                                                 child: Text(
                                                     "Temperature: " +
-                                                        tempOfUser,
+                                                        tempOfUser.toString() ?? '',
                                                     style: TextStyle(
                                                         fontSize: 15)),
                                               ),
