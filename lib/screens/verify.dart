@@ -48,6 +48,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
       timer.cancel();
       final prefs = await SharedPreferences.getInstance();
       final myString = prefs.getString('Name') ?? '';
+      final lastName = prefs.getString('LastName') ?? '';
       final user = FirebaseAuth.instance.currentUser;
       String date = DateTime.now().toString();
       // FirebaseDatabase.instance
@@ -68,7 +69,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
           .set({
         'date': date.substring(0, date.indexOf(' ')),
         'temp': '',
-        'name': myString,
+        'name': myString.trim(),
+        'lastName': lastName.trim(),
         // 'org':''
       });
       Navigator.of(context).pushReplacement(

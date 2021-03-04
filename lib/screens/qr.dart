@@ -16,6 +16,7 @@ class _QRScreenState extends State<QRScreen> {
   var name = '';
   var myDate = '';
   var org;
+  var lastname1 = '';
   @override
   void initState() {
     user = auth.currentUser;
@@ -26,9 +27,11 @@ class _QRScreenState extends State<QRScreen> {
   void getname() async {
     final prefs = await SharedPreferences.getInstance();
     final myString = prefs.getString('Name') ?? '';
-    // final myStringOrg = prefs.getString('org') ?? '';
+    final lastname = prefs.getString('LastName') ?? ''
+;    // final myStringOrg = prefs.getString('org') ?? '';
     setState(() {
       name = myString;
+      lastname1 = lastname;
     });
     String date = DateTime.now().toString();
     date = date.split('.')[0];
@@ -66,7 +69,7 @@ class _QRScreenState extends State<QRScreen> {
           child: Center(
             child: Container(
               child: QrImage(
-                data: user.uid + " " + name + " " + myDate,
+                data: user.uid + " " + name + "_" + lastname1 + " " + myDate,
                 version: QrVersions.auto,
                 size: 300.0,
               ),

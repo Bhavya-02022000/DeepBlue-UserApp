@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
           'Email',
           style: kLabelStyle,
         ),
-        //SizedBox(height: 10.0),
+        SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -282,7 +282,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[500],
+        
+        
         title: Text('Login'),
         leading: IconButton(
               icon: Icon(
@@ -309,10 +310,10 @@ class _LoginState extends State<Login> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                      Color(0xFF64B5F6),
+                      Color(0xFF90CAF9),
+                      Color(0xFFBBDEFB),
+                      Color(0xFFE3F2FD),
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),

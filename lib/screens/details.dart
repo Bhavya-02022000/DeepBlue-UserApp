@@ -65,7 +65,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("Name: " + values[2],
+                                  child: Text("Name: " + values[2] + ' ' +values[1],
                                       style: TextStyle(
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold)),
@@ -89,7 +89,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Temperature: " + values[1].toString(),
+                                    "Temperature: " + values[3].toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),

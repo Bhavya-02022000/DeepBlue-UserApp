@@ -63,6 +63,6 @@ class FirstScreen extends StatelessWidget {
 class DisplayImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image(image: AssetImage('img/adminDisplay.png'));
+    return Image(image: AssetImage('img/welcome.png'));
   }
 }

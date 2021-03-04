@@ -37,6 +37,7 @@ class _ButtonsState extends State<Buttons> {
   var nameOfUser = '';
   var tempOfUser = '';
   var dateOfUser = '';
+  var lastnameOfUser = '';
   var res;
   Timer timer;
   var containercolor = [
@@ -67,11 +68,12 @@ class _ButtonsState extends State<Buttons> {
       nameOfUser = dbRef['name'];
       tempOfUser = dbRef['temp'];
       dateOfUser = dbRef['date'];
+      lastnameOfUser = dbRef['lastName'];
     });
 
     setState(() {
-      if (int.parse(dbRef['temp']) < 90) {
-        res = 'Safe';
+      if (int.parse(dbRef['temp']) < 38) {
+        res = 'You are Safe';
 
         containercolor = [
           Colors.white,
@@ -80,7 +82,7 @@ class _ButtonsState extends State<Buttons> {
           Colors.green[400]
         ];
       } else {
-        res = 'Unsafe';
+        res = 'You are at Risk';
         containercolor = [
           Colors.white,
           Colors.red[100],
@@ -110,83 +112,197 @@ class _ButtonsState extends State<Buttons> {
           )
         ],
       ),
-      body: Padding(
-        padding:
-            EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 8.0),
-        child: Column(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Container(
+        decoration: BoxDecoration(
+          /* image: DecorationImage(
+              image: AssetImage('assets/undraw_my_app_re_gxtj.png'), fit: BoxFit.cover),*/
+          gradient: LinearGradient(
+              colors: [
+                Color(0xFFE3F2FD),
+                Color(0xFFBBDEFB),
+                Color(0xFF90CAF9),
+                Color(0xFF64B5F6),
+              ],
+
+              // colors: [Colors.blue[400], Colors.blue],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter),
+        ),
+        height: double.infinity,
+        width: double.infinity,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          // padding: EdgeInsets.symmetric(
+          //   horizontal: 40.0,
+          //   vertical: 120.0,
+          // ),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 15.0, right: 15.0, bottom: 20.0, top: 8.0),
+            child: Column(
               children: <Widget>[
-                Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.height * 0.11,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  stops: [0.15, 0.4, 0.7, 1],
-                                  colors: containercolor)),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset(
-                                  'img/status.png',
-                                  height: 60.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 150.0, top: 20),
-                                child: Column(
-                                  children: [
-                                    Text(nameOfUser,
-                                        style: TextStyle(fontSize: 16)),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text("Temperature: " + tempOfUser,
-                                        style: TextStyle(fontSize: 12)),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text("Date: " + dateOfUser,
-                                        style: TextStyle(fontSize: 12))
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      children: [
-                        Column(
+                    Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Column(
                           children: [
-                            ScanQR(),
-                            PdfViewerButton()
-                            // UserDetails(),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      stops: [0.15, 0.4, 0.7, 1],
+                                      colors: containercolor)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      'img/status.png',
+                                      height: 60.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(
+                                      res ?? '',
+                                      style: TextStyle(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      // children: [
+                                      //   Text(nameOfUser,
+                                      //       style: TextStyle(fontSize: 16)),
+                                      //   SizedBox(
+                                      //     height: 10,
+                                      //   ),
+                                      //   Text("Temperature: " + tempOfUser,
+                                      //       style: TextStyle(fontSize: 12)),
+                                      //   SizedBox(
+                                      //     height: 10,
+                                      //   ),
+                                      //   Text("Date: " + dateOfUser,
+                                      //       style: TextStyle(fontSize: 12))
+                                      // ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )),
+                    Card(
+                      color: Colors.lightBlue[50],
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text("Welcome: " + nameOfUser + ' ' + lastnameOfUser,
+                                            style: TextStyle(fontSize: 20)),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                    "Temperature: " +
+                                                        tempOfUser,
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 70),
+                                                child: Text(
+                                                    "Date: " + dateOfUser,
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              // children: [
+                              //   Text(nameOfUser,
+                              //       style: TextStyle(fontSize: 16)),
+                              //   SizedBox(
+                              //     height: 10,
+                              //   ),
+                              //   Text("Temperature: " + tempOfUser,
+                              //       style: TextStyle(fontSize: 12)),
+                              //   SizedBox(
+                              //     height: 10,
+                              //   ),
+                              //   Text("Date: " + dateOfUser,
+                              //       style: TextStyle(fontSize: 12))
+                              // ],
+                            ),
                           ],
                         ),
-                        Column(
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
                           children: [
-                            AdminDetails(),
-                            OrganisationPage(),
+                            Column(
+                              children: [
+                                ScanQR(),
+                                PdfViewerButton()
+                                // UserDetails(),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                AdminDetails(),
+                                OrganisationPage(),
+                              ],
+                            ),
                           ],
                         ),
                       ],
@@ -195,7 +311,7 @@ class _ButtonsState extends State<Buttons> {
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
