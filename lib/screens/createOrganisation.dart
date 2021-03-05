@@ -125,6 +125,13 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
                             .child('name')
                             .once())
                         .value;
+                        var lastname = (await FirebaseDatabase.instance
+                            .reference()
+                            .child('users')
+                            .child(user.uid)
+                            .child('lastName')
+                            .once())
+                        .value;
                     var orgNameDB = (await FirebaseDatabase.instance
                             .reference()
                             .child('admin')
@@ -150,13 +157,20 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
                         'org': orgName,
                         'pass': orgPassword
                       });
+                      var temp = (await FirebaseDatabase.instance
+                            .reference()
+                            .child('users')
+                            .child(user.uid)
+                            .child('temp')
+                            .once())
+                        .value;
                       FirebaseDatabase.instance
                           .reference()
                           .child('admin')
                           .child(orgName)
                           .child(date.substring(0, date.indexOf(' ')))
                           .child(user.uid)
-                          .set({'name': name, 'temp': ''});
+                          .set({'name': name+'_'+lastname, 'temp': temp});
                       fieldTextName.clear();
                       fieldTextPassword.clear();
                       showAlertDialog(context);

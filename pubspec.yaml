@@ -34,7 +34,12 @@ dependencies:
   firebase_database: ^6.0.0
   shared_preferences: ^0.5.12+4
   flutter_plugin_pdf_viewer: ^1.0.7
+  flutter_launcher_icons: "^0.7.0"
   
+flutter_icons:
+  android: true
+  image_path_ios: "img/logo.jpeg"
+  image_path_android: "img/logo.jpeg"
 
 dev_dependencies:
   flutter_test:

@@ -200,8 +200,7 @@ class _LoginState extends State<Login> {
       child: TextButton(
         onPressed: () {
           Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ResetScreen()));
-          
+              .push(MaterialPageRoute(builder: (context) => ResetScreen()));
         },
         // padding: EdgeInsets.only(right: 0.0),
         child: Text(
@@ -219,12 +218,16 @@ class _LoginState extends State<Login> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          auth
-              .signInWithEmailAndPassword(email: _email, password: _password)
-              .then((_) {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HomeScreen()));
-          });
+          if (_email != null && _password != null) {
+            auth
+                .signInWithEmailAndPassword(email: _email, password: _password)
+                .then((_) {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+            });
+          } else {
+            showAlertDialog(context);
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -244,8 +247,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
-
 
   Widget _buildSignupBtn() {
     return Container(
@@ -282,19 +283,17 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
-        
         title: Text('Login'),
         leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => FirstScreen()));
-              },
-            ),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => FirstScreen()));
+          },
+        ),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -361,4 +360,31 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error Occured"),
+    content: Text("Please enter your Email ID and password correctly"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

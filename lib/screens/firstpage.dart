@@ -51,7 +51,7 @@ class FirstScreen extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.only(top:100.0),
                 child: DisplayImage(),
               ),
             ],

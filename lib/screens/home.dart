@@ -53,6 +53,11 @@ class _ButtonsState extends State<Buttons> {
     });
     super.initState();
   }
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   fetchingData() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -105,6 +110,7 @@ class _ButtonsState extends State<Buttons> {
               color: Colors.white,
             ),
             onPressed: () {
+              dispose();
               FirebaseAuth.instance.signOut();
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => Login()));

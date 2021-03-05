@@ -41,6 +41,12 @@ class _AdminScreenState extends State<AdminScreen> {
     Colors.red[300],
     Colors.red[400]
   ];
+  var containerColorBlue = [
+    Colors.white,
+    Colors.blue[100],
+    Colors.blue[300],
+    Colors.blue[400]
+  ];
   @override
   void initState() {
     getDBRef();
@@ -109,11 +115,18 @@ class _AdminScreenState extends State<AdminScreen> {
 
                           // preparing final list to print
                           finalList.add(finalString);
-                          if (double.parse(tempOfUser) > 38) {
-                            colorList.add(containerColorRed);
-                          } else {
-                            colorList.add(containerColorGreen);
+                          if (tempOfUser != '') {
+                            if (double.parse(tempOfUser) > 38) {
+                              colorList.add(containerColorRed);
+                            } else {
+                              colorList.add(containerColorGreen);
+                            }
                           }
+                          else{
+                            colorList.add(containerColorBlue);
+                          }
+
+                          print(finalList);
                         }
                       }
                     }
