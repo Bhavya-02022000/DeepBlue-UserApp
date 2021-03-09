@@ -16,7 +16,7 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Organisation'),
+        title: Text('Join Organisation'),
       ),
       body: Column(
         children: [
@@ -50,7 +50,7 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                child: Text('Create'),
+                child: Text('Join'),
                 onPressed: () async {
                   var fail = 1;
                   final user = FirebaseAuth.instance.currentUser;

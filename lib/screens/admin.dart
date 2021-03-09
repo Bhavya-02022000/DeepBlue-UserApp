@@ -103,18 +103,21 @@ class _AdminScreenState extends State<AdminScreen> {
                           finalData = tempListOfData[j];
                           nameOfUser = finalData['name'].toString().trim();
                           tempOfUser = finalData['temp'].toString();
-                          dateOfUser = finalData['date'].toString();
-                          lastNameofUser = finalData['lastName'].toString();
+                          // dateOfUser = finalData['date'].toString();
+                          // lastNameofUser = finalData['lastName'].toString();
+                          if (tempOfUser == '1.1') {
+                            tempOfUser = '0';
+                        }
                           // adding all required variables in a string
                           var finalString = [finalDate] +
                               [nameOfUser] +
-                              [tempOfUser] +
-                              [dateOfUser] +
-                              [lastNameofUser];
-
+                              [tempOfUser] ;
+                              // [dateOfUser] +
+                              // [lastNameofUser];
                           // preparing final list to print
                           finalList.add(finalString);
-                          if (tempOfUser != '') {
+                          print(finalList);
+                          if (tempOfUser != '0') {
                             if (double.parse(tempOfUser) > 38) {
                               colorList.add(containerColorRed);
                             } else {
@@ -124,7 +127,7 @@ class _AdminScreenState extends State<AdminScreen> {
                             colorList.add(containerColorBlue);
                           }
 
-                          print(finalList);
+                          
                         }
                       }
                     }
@@ -167,7 +170,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                                'Temp: ${finalList[index][2] ?? "Empty"}',
+                                                'Temp: ${finalList[index][2].toString() ?? "Empty"}',
                                                 style: TextStyle(fontSize: 15)),
                                           ),
                                           Padding(
