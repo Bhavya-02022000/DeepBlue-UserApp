@@ -5,7 +5,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:userapp/screens/admin.dart';
+// import 'package:userapp/screens/admin.dart';
+import 'package:userapp/screens/adminFeatureButton.dart';
 import 'package:userapp/screens/details.dart';
 import 'package:userapp/screens/login.dart';
 import 'package:userapp/screens/organization.dart';
@@ -35,7 +36,7 @@ class Buttons extends StatefulWidget {
 class _ButtonsState extends State<Buttons> {
   var dbRef = new Map();
   var nameOfUser = '';
-  double tempOfUser = 0;
+  var tempOfUser = 0.0;
   var dateOfUser = '';
   var lastnameOfUser = '';
   var res;
@@ -53,6 +54,7 @@ class _ButtonsState extends State<Buttons> {
     });
     super.initState();
   }
+
   @override
   void dispose() {
     timer.cancel();
@@ -77,23 +79,36 @@ class _ButtonsState extends State<Buttons> {
     });
 
     setState(() {
-      if (dbRef['temp'] < 38) {
-        res = 'You are Safe';
+      if (dbRef['temp'] != 1.1) {
+        if (dbRef['temp'] < 38) {
+          res = 'You are Safe';
 
-        containercolor = [
-          Colors.white,
-          Colors.green[100],
-          Colors.green[300],
-          Colors.green[400]
-        ];
+          containercolor = [
+            Colors.white,
+            Colors.green[100],
+            Colors.green[300],
+            Colors.green[400]
+          ];
+        } else {
+          res = 'You are at Risk';
+          containercolor = [
+            Colors.white,
+            Colors.red[100],
+            Colors.red[300],
+            Colors.red[400]
+          ];
+        }
       } else {
-        res = 'You are at Risk';
-        containercolor = [
-          Colors.white,
-          Colors.red[100],
-          Colors.red[300],
-          Colors.red[400]
-        ];
+        setState(() {
+          tempOfUser = null;
+          // res = 'No results found';
+          containercolor = [
+            Colors.white,
+            Colors.grey[100],
+            Colors.grey[300],
+            Colors.grey[400]
+          ];
+        });
       }
     });
   }
@@ -225,7 +240,11 @@ class _ButtonsState extends State<Buttons> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
-                                        child: Text("Welcome: " + nameOfUser + ' ' + lastnameOfUser,
+                                        child: Text(
+                                            "Welcome: " +
+                                                nameOfUser +
+                                                ' ' +
+                                                lastnameOfUser,
                                             style: TextStyle(fontSize: 20)),
                                       ),
                                     ],
@@ -249,7 +268,9 @@ class _ButtonsState extends State<Buttons> {
                                                     const EdgeInsets.all(5.0),
                                                 child: Text(
                                                     "Temperature: " +
-                                                        tempOfUser.toString() ?? '',
+                                                            tempOfUser
+                                                                .toString() ??
+                                                        '',
                                                     style: TextStyle(
                                                         fontSize: 15)),
                                               ),
@@ -425,7 +446,7 @@ class _AdminDetailsState extends State<AdminDetails> {
               final prefs = await SharedPreferences.getInstance();
               prefs.setString('org', org);
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AdminScreen(),
+                builder: (context) => AdminFeatureButton(),
               ));
             } else {
               showAlertDialog(context);

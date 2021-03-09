@@ -68,7 +68,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
           .child(user.uid)
           .set({
         'date': date.substring(0, date.indexOf(' ')),
-        'temp': '',
+        'temp': 1.1,
         'name': myString.trim(),
         'lastName': lastName.trim(),
         // 'org':''

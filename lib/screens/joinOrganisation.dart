@@ -10,6 +10,8 @@ class JoinOrganisationPage extends StatefulWidget {
 
 class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
   String orgName, orgPassword;
+  final fieldTextName = TextEditingController();
+  final fieldTextPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +30,7 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
                   orgName = value.trim();
                 });
               },
+              controller: fieldTextName,
             ),
           ),
           Padding(
@@ -40,6 +43,7 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
                   orgPassword = value.trim();
                 });
               },
+              controller: fieldTextPassword,
             ),
           ),
           Row(
@@ -48,6 +52,7 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
               ElevatedButton(
                 child: Text('Create'),
                 onPressed: () async {
+                  var fail = 1;
                   final user = FirebaseAuth.instance.currentUser;
                   var uidValue = (await FirebaseDatabase.instance
                           .reference()
@@ -83,17 +88,59 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
                         'org': orgName,
                       });
                       var name = (await FirebaseDatabase.instance
-                            .reference()
-                            .child('users')
-                            .child(user.uid)
-                            .child('name')
-                            .once())
-                        .value;
-                      FirebaseDatabase.instance.reference().child('admin').child(orgName).child(date.substring(0, date.indexOf(' '))).child(user.uid).set({
-                        'name': name,
-                        'temp': ''
+                              .reference()
+                              .child('users')
+                              .child(user.uid)
+                              .child('name')
+                              .once())
+                          .value;
+                      var lastName = (await FirebaseDatabase.instance
+                              .reference()
+                              .child('users')
+                              .child(user.uid)
+                              .child('lastName')
+                              .once())
+                          .value;
+                      var temp;
+                      try {
+                        setState(() async {
+                          temp = (await FirebaseDatabase.instance
+                                  .reference()
+                                  .child('users')
+                                  .child(user.uid)
+                                  .child('temp')
+                                  .once())
+                              .value;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          temp = '';
+                        });
+                      }
+                      FirebaseDatabase.instance
+                          .reference()
+                          .child('members')
+                          .child(orgName)
+                          .child(user.uid)
+                          .set({
+                        'name': name + '_' + lastName,
+                        'temp': 1.1,
+                        'date': date.substring(0, date.indexOf(' '))
                       });
+                      fieldTextName.clear();
+                      fieldTextPassword.clear();
+                      showAlertDialog(context);
+                      setState(() {
+                        fail = 0;
+                      });
+                    } else {
+                      fieldTextName.clear();
+                      fieldTextPassword.clear();
+                      // showAlertDialogFail(context);
                     }
+                  }
+                  if (fail == 1) {
+                    showAlertDialogFail(context);
                   }
                 },
               )
@@ -103,4 +150,58 @@ class _JoinOrganisationPageState extends State<JoinOrganisationPage> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Congratulations!"),
+    content: Text("Joined successfully"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialogFail(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error Occured!"),
+    content: Text("Please enter valid credentials"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

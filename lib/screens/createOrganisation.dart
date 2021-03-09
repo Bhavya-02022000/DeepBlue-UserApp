@@ -22,34 +22,32 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
         title: Text('Add Organisation'),
       ),
       body: Container(
-         height: double.infinity,
-                width: double.infinity,
-                
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF64B5F6),
-                      Color(0xFF90CAF9),
-                      Color(0xFFBBDEFB),
-                      Color(0xFFE3F2FD),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF64B5F6),
+              Color(0xFF90CAF9),
+              Color(0xFFBBDEFB),
+              Color(0xFFE3F2FD),
+            ],
+            stops: [0.1, 0.4, 0.7, 0.9],
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 40, top: 10),
               child: Image(
-                          alignment: Alignment.center,
-                          width: 300,
-                          height: 230,
-                          image: AssetImage('img/addOrg.jpg'),
-
-                        ),
+                alignment: Alignment.center,
+                width: 300,
+                height: 230,
+                image: AssetImage('img/addOrg.jpg'),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -78,8 +76,8 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
                 ),
               ),
             ),
-            
-           // SizedBox(height: 6.0),
+
+            // SizedBox(height: 6.0),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Container(
@@ -125,7 +123,7 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
                             .child('name')
                             .once())
                         .value;
-                        var lastname = (await FirebaseDatabase.instance
+                    var lastname = (await FirebaseDatabase.instance
                             .reference()
                             .child('users')
                             .child(user.uid)
@@ -158,19 +156,37 @@ class _CreateOrganisationPageState extends State<CreateOrganisationPage> {
                         'pass': orgPassword
                       });
                       var temp = (await FirebaseDatabase.instance
-                            .reference()
-                            .child('users')
-                            .child(user.uid)
-                            .child('temp')
-                            .once())
-                        .value;
+                              .reference()
+                              .child('users')
+                              .child(user.uid)
+                              .child('temp')
+                              .once())
+                          .value;
+
                       FirebaseDatabase.instance
                           .reference()
                           .child('admin')
                           .child(orgName)
                           .child(date.substring(0, date.indexOf(' ')))
                           .child(user.uid)
-                          .set({'name': name+'_'+lastname, 'temp': temp});
+                          .set({'name': name + '_' + lastname, 'temp': temp});
+                      FirebaseDatabase.instance
+                          .reference()
+                          .child('users')
+                          .child(user.uid)
+                          .update({'org':orgName});
+
+                      FirebaseDatabase.instance
+                          .reference()
+                          .child('members')
+                          .child(orgName)
+                          .child(user.uid)
+                          .set({
+                        'name': name + '_' + lastname,
+                        'temp': temp,
+                        'date': date.substring(0, date.indexOf(' '))
+                      });
+
                       fieldTextName.clear();
                       fieldTextPassword.clear();
                       showAlertDialog(context);
