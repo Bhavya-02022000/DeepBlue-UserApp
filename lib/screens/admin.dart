@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +12,9 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
+  Timer timer;
   final user = FirebaseAuth.instance.currentUser;
-  final dateList = [];
+  var dateList = [];
   List uidOfEachUserList = [];
   var finalList = [];
   var uidDataOfUserList = [];
@@ -49,7 +52,9 @@ class _AdminScreenState extends State<AdminScreen> {
   ];
   @override
   void initState() {
-    getDBRef();
+    this.getDBRef();
+
+    // getDBRef();
     super.initState();
   }
 
@@ -107,13 +112,12 @@ class _AdminScreenState extends State<AdminScreen> {
                           // lastNameofUser = finalData['lastName'].toString();
                           if (tempOfUser == '1.1') {
                             tempOfUser = '0';
-                        }
+                          }
                           // adding all required variables in a string
-                          var finalString = [finalDate] +
-                              [nameOfUser] +
-                              [tempOfUser] ;
-                              // [dateOfUser] +
-                              // [lastNameofUser];
+                          var finalString =
+                              [finalDate] + [nameOfUser] + [tempOfUser];
+                          // [dateOfUser] +
+                          // [lastNameofUser];
                           // preparing final list to print
                           finalList.add(finalString);
                           print(finalList);
@@ -126,8 +130,6 @@ class _AdminScreenState extends State<AdminScreen> {
                           } else {
                             colorList.add(containerColorBlue);
                           }
-
-                          
                         }
                       }
                     }
