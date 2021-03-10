@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,7 @@ class _OrgMemState extends State<OrgMem> {
   final user = FirebaseAuth.instance.currentUser;
   var dataListOfUser;
   var lst = [];
+  Timer timer;
 
   final dateList = [];
   List uidOfEachUserList = [];
@@ -52,8 +55,28 @@ class _OrgMemState extends State<OrgMem> {
   ];
   @override
   void initState() {
-    getDBRef();
+    this.getDBRef();
+    try {
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        this.getDBRef();
+        lst = [];
+        uidOfEachUserList = [];
+        finalList = [];
+        uidDataOfUserList = [];
+        tempListOfUid = [];
+        tempListOfData = [];
+        newdbRefList = [];
+        colorList = [];
+        colorList1 = [];
+      });
+    } catch (e) {}
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   getDBRef() async {
@@ -65,6 +88,15 @@ class _OrgMemState extends State<OrgMem> {
 
     setState(() {
       dbRef = dbref;
+      lst = [];
+      uidOfEachUserList = [];
+      finalList = [];
+      uidDataOfUserList = [];
+      tempListOfUid = [];
+      tempListOfData = [];
+      newdbRefList = [];
+      colorList = [];
+      colorList1 = [];
     });
   }
 
@@ -79,11 +111,20 @@ class _OrgMemState extends State<OrgMem> {
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
                     Map<dynamic, dynamic> values = snapshot.data.value;
+                    lst = [];
+                    uidOfEachUserList = [];
+                    finalList = [];
+                    uidDataOfUserList = [];
+                    tempListOfUid = [];
+                    tempListOfData = [];
+                    newdbRefList = [];
+                    colorList = [];
+                    colorList1 = [];
                     if (values != null) {
                       values.forEach((key, value) {
                         Map uidDataOfUser = value;
                         if (uidDataOfUser['temp'] == 1.1) {
-                            uidDataOfUser['temp'] = 0;
+                          uidDataOfUser['temp'] = 0;
                         }
                         lst.add([
                           uidDataOfUser['date'],
@@ -131,7 +172,7 @@ class _OrgMemState extends State<OrgMem> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              'Name: ${lst[index][2].toString().split('_')[0] +' '+lst[index][2].toString().split('_')[1] ?? 'Empty'}',
+                                              'Name: ${lst[index][2].toString().split('_')[0] + ' ' + lst[index][2].toString().split('_')[1] ?? 'Empty'}',
                                               style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold),
