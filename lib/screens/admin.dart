@@ -53,19 +53,43 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   void initState() {
     this.getDBRef();
-
-    // getDBRef();
+    try {
+      timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        this.getDBRef();
+        dateList = [];
+        uidOfEachUserList = [];
+        finalList = [];
+        uidDataOfUserList = [];
+        tempListOfUid = [];
+        tempListOfData = [];
+        newdbRefList = [];
+        colorList = [];
+        colorList1 = [];
+      });
+    } catch (e) {}
     super.initState();
+  }
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   getDBRef() async {
     final prefs = await SharedPreferences.getInstance();
     final org = prefs.getString('org') ?? '';
-    // final org = 'sakec';
     final dbref =
         FirebaseDatabase.instance.reference().child('admin').child(org);
-
     setState(() {
+      dateList = [];
+      uidOfEachUserList = [];
+      finalList = [];
+      uidDataOfUserList = [];
+      tempListOfUid = [];
+      tempListOfData = [];
+      newdbRefList = [];
+      colorList = [];
+      colorList1 = [];
       dbRef = dbref;
     });
   }
@@ -81,6 +105,15 @@ class _AdminScreenState extends State<AdminScreen> {
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
                     Map<dynamic, dynamic> values = snapshot.data.value;
+                    dateList = [];
+                    uidOfEachUserList = [];
+                    finalList = [];
+                    uidDataOfUserList = [];
+                    tempListOfUid = [];
+                    tempListOfData = [];
+                    newdbRefList = [];
+                    colorList = [];
+                    colorList1 = [];
                     if (values != null) {
                       values.forEach((key, value) {
                         // date is direct child of admin
@@ -116,11 +149,8 @@ class _AdminScreenState extends State<AdminScreen> {
                           // adding all required variables in a string
                           var finalString =
                               [finalDate] + [nameOfUser] + [tempOfUser];
-                          // [dateOfUser] +
-                          // [lastNameofUser];
                           // preparing final list to print
                           finalList.add(finalString);
-                          print(finalList);
                           if (tempOfUser != '0') {
                             if (double.parse(tempOfUser) > 38) {
                               colorList.add(containerColorRed);

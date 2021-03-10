@@ -18,6 +18,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   var dbRef;
   @override
   void initState() {
+    dispose();
     setState(() {
       dbRef = getdbRef();
     });
