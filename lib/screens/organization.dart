@@ -21,6 +21,7 @@ class OrganizationButtons extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    ImgClass(),
                     CreateOrganisationButton(),
                     JoinOrganisationButton()
                   ],
@@ -33,31 +34,48 @@ class OrganizationButtons extends StatelessWidget {
     );
   }
 }
+class ImgClass extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image(
+                alignment: Alignment.center,
+                width: 340,
+                height: 300,
+                image: AssetImage('img/org.jpg'),
+              ),
+            ),
+    );
+  }
+}
 
 class JoinOrganisationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0, bottom: 2.0, left: 5.0),
+      padding: EdgeInsets.all(10),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.43,
+        width: MediaQuery.of(context).size.width * 0.75,
         height: MediaQuery.of(context).size.height * 0.1,
-        child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => JoinOrganisationPage(),
-              ));
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                // Image(
-                //   alignment: Alignment.center,
-                //   image: AssetImage('img/QR.jpg'),
-                // ),
-                Text('Join Organisation'),
-              ],
-            )),
+        child: Padding(
+          padding: const EdgeInsets.only(left:20),
+          child: RaisedButton(
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => JoinOrganisationPage(),
+                ));
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text('Join Organisation'),
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -71,36 +89,28 @@ class CreateOrganisationButton extends StatelessWidget {
         physics: AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Image(
-            //     alignment: Alignment.center,
-            //     width: 340,
-            //     height: 300,
-            //     // width: MediaQuery.of(context).size.width * 0.75,
-            //     // height: MediaQuery.of(context).size.height * 0.75,
-            //     image: AssetImage('img/joinOrg1.jpg'),
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.all(10),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.75,
                 height: MediaQuery.of(context).size.height * 0.1,
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreateOrganisationPage(),
-                      ));
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('Create Organisation'),
-                      ],
-                    )),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:20),
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CreateOrganisationPage(),
+                        ));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text('Create Organisation'),
+                        ],
+                      )),
+                ),
               ),
             ),
           ],

@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:userapp/screens/admin.dart';
 import 'package:userapp/screens/adminFeatureButton.dart';
 import 'package:userapp/screens/details.dart';
 import 'package:userapp/screens/login.dart';
@@ -367,7 +366,7 @@ class ScanQR extends StatelessWidget {
                 alignment: Alignment.center,
                 image: AssetImage('img/QR.jpg'),
               ),
-              Text('QR Code'),
+              Text('Scan QR'),
             ],
           ),
           elevation: 3.0,
@@ -529,7 +528,7 @@ class PdfViewerButton extends StatelessWidget {
                 alignment: Alignment.center,
                 image: AssetImage('img/howToUse.jpg'),
               ),
-              Text('PDF'),
+              Text('Instructions'),
             ],
           ),
           elevation: 3.0,
@@ -555,7 +554,7 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Alert"),
-    content: Text("You don't have access."),
+    content: Text("You don't have access. Please create an organisation & add members to use this feature"),
     actions: [
       okButton,
     ],

@@ -41,7 +41,7 @@ class PdfViewerState extends State<PdfViewer> {
             Flexible(
               flex: 8,
               child: isLoading
-                  ? CircularProgressIndicator()
+                  ? Center(child: CircularProgressIndicator())
                   : PDFViewer(
                       document: doc,
                     ),
