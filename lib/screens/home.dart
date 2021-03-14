@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userapp/screens/adminFeatureButton.dart';
 import 'package:userapp/screens/details.dart';
 import 'package:userapp/screens/login.dart';
+import 'package:userapp/screens/newRegistration.dart';
 import 'package:userapp/screens/organization.dart';
 import 'package:userapp/screens/pdfpage.dart';
 import 'package:userapp/screens/qr.dart';
@@ -319,7 +320,8 @@ class _ButtonsState extends State<Buttons> {
                             Column(
                               children: [
                                 ScanQR(),
-                                PdfViewerButton()
+                                PdfViewerButton(),
+                                NewRegistrationButton()
                                 // UserDetails(),
                               ],
                             ),
@@ -327,6 +329,7 @@ class _ButtonsState extends State<Buttons> {
                               children: [
                                 AdminDetails(),
                                 OrganisationPage(),
+                                VideoOfHowToUse()
                               ],
                             ),
                           ],
@@ -367,6 +370,41 @@ class ScanQR extends StatelessWidget {
                 image: AssetImage('img/QR.jpg'),
               ),
               Text('Scan QR'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.blue[50],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NewRegistrationButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 12.0, bottom: 2.0, left: 5),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.43,
+        height: MediaQuery.of(context).size.height * 0.27,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NewRegistration(),
+            ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/face.jpg'),
+              ),
+              Text('Face Registration'),
             ],
           ),
           elevation: 3.0,
@@ -529,6 +567,41 @@ class PdfViewerButton extends StatelessWidget {
                 image: AssetImage('img/howToUse.jpg'),
               ),
               Text('Instructions'),
+            ],
+          ),
+          elevation: 3.0,
+          color: Colors.grey[100],
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class VideoOfHowToUse extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 13.0, bottom: 2.0, left: 5),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.43,
+        height: MediaQuery.of(context).size.height * 0.22,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PdfViewer(),
+            ));
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image(
+                alignment: Alignment.center,
+                image: AssetImage('img/video.jpg'),
+              ),
+              Text('Video'),
             ],
           ),
           elevation: 3.0,

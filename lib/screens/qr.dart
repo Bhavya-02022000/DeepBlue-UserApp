@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userapp/screens/home.dart';
+import 'package:userapp/screens/newRegistration.dart';
 
 class QRScreen extends StatefulWidget {
   @override
@@ -27,8 +28,8 @@ class _QRScreenState extends State<QRScreen> {
   void getname() async {
     final prefs = await SharedPreferences.getInstance();
     final myString = prefs.getString('Name') ?? '';
-    final lastname = prefs.getString('LastName') ?? ''
-;    // final myStringOrg = prefs.getString('org') ?? '';
+    final lastname = prefs.getString('LastName') ??
+        ''; // final myStringOrg = prefs.getString('org') ?? '';
     setState(() {
       name = myString;
       lastname1 = lastname;
@@ -66,15 +67,18 @@ class _QRScreenState extends State<QRScreen> {
             title: Text('QrCode')),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Container(
-              child: QrImage(
-                data: user.uid + " " + name + "_" + lastname1 + " " + myDate,
-                version: QrVersions.auto,
-                size: 300.0,
+
+              child:Center(
+                child: Container(
+                  child: QrImage(
+                    data:
+                        user.uid + " " + name + "_" + lastname1 + " " + myDate,
+                    version: QrVersions.auto,
+                    size: 300.0,
+                  ),
+                ),
               ),
-            ),
-          ),
+
         ),
       ),
     );
