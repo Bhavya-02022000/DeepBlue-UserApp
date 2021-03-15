@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:userapp/screens/precautions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -329,7 +329,7 @@ class _ButtonsState extends State<Buttons> {
                               children: [
                                 AdminDetails(),
                                 OrganisationPage(),
-                                VideoOfHowToUse()
+                                Precautions()
                               ],
                             ),
                           ],
@@ -580,7 +580,7 @@ class PdfViewerButton extends StatelessWidget {
   }
 }
 
-class VideoOfHowToUse extends StatelessWidget {
+class Precautions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -591,7 +591,7 @@ class VideoOfHowToUse extends StatelessWidget {
         child: RaisedButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PdfViewer(),
+              builder: (context) => Dod(),
             ));
           },
           child: Column(
@@ -599,9 +599,9 @@ class VideoOfHowToUse extends StatelessWidget {
             children: <Widget>[
               Image(
                 alignment: Alignment.center,
-                image: AssetImage('img/video.jpg'),
+                image: AssetImage('img/precautions.jpg'),
               ),
-              Text('Video'),
+              Text('Precaution'),
             ],
           ),
           elevation: 3.0,
